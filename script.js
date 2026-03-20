@@ -4,7 +4,9 @@ let currentFilter = "all";
 function saveTasks(){
 localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
 function renderTasks(){
+
 let list = document.getElementById("taskList");
 list.innerHTML="";
 
@@ -16,34 +18,48 @@ if(currentFilter === "completed" && !task.completed) return;
 let li = document.createElement("li");
 
 if(task.completed) li.classList.add("completed");
+
 li.innerHTML = `
 <span onclick="toggleTask(${index})">${task.text}</span>
 <button class="delete" onclick="deleteTask(${index})">X</button>
 `;
+
 list.appendChild(li);
+
 });
+
 updateCounter();
 }
+
 function addTask(){
+
 let input=document.getElementById("taskInput");
+
 if(input.value.trim()==="") return;
+
 tasks.push({
 text:input.value,
 completed:false
 });
+
 input.value="";
+
 saveTasks();
 renderTasks();
 }
 
 function deleteTask(index){
+
 tasks.splice(index,1);
+
 saveTasks();
 renderTasks();
 }
 
 function toggleTask(index){
+
 tasks[index].completed = !tasks[index].completed;
+
 saveTasks();
 renderTasks();
 }
@@ -54,16 +70,24 @@ renderTasks();
 }
 
 function updateCounter(){
+
 let counter=document.getElementById("taskCounter");
+
 let active = tasks.filter(t=>!t.completed).length;
+
 counter.textContent = active + " tasks remaining";
 }
 
-document.getElementById("taskInput").addEventListener("keypress", function(event) {
+document.getElementById("taskInput").addEventListener("keydown", function(event) {
 
 if(event.key === "Enter"){
 addTask();
 }
 
 });
+
+function toggleInfo(){
+document.getElementById("infoModal").classList.toggle("active");
+}
+
 renderTasks();
